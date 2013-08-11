@@ -35,7 +35,7 @@ Vessel.prototype.onPlanet = function () {
  * @name Vessel.report
  */
 Vessel.prototype.report = function () {
-  var result = "Грузовой корабль. ";
+  var result = 'Грузовой корабль "' + this.name + '". ';
   
   var planet = this.onPlanet();
   if (planet) {
