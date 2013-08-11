@@ -1,3 +1,4 @@
+var planets = [];
 /**
  * Создает экземпляр космического корабля.
  * @name Vessel
@@ -5,7 +6,25 @@
  * @param {Number}[] position Местоположение корабля.
  * @param {Number} capacity Грузоподъемность корабля.
  */
-function Vessel(name, position, capacity) {}
+function Vessel(name, position, capacity) {
+  this.name = name;
+  this.position = position;
+  this.capacity = capacity;
+  this.cargo = 0;
+}
+
+Vessel.prototype.onPlanet = function () {
+  var result = false;
+  
+  for (i = 0; i < planets.length; i++){
+    var planet = planets[i];
+    if(planet.position[0] == this.position[0] && planet.position[1] == this.position[1]){
+      result = planet;
+    };
+  };
+  
+  return result;
+}
 
 /**
  * Выводит текущее состояние корабля: имя, местоположение, доступную грузоподъемность.
@@ -15,19 +34,40 @@ function Vessel(name, position, capacity) {}
  * vesserl.report(); // Грузовой корабль. Местоположение: 50,20. Груз: 200т.
  * @name Vessel.report
  */
-Vessel.prototype.report = function () {}
+Vessel.prototype.report = function () {
+  var result = "Грузовой корабль. ";
+  
+  var planet = this.onPlanet();
+  if(planet){
+    result += "Местоположение: " + planet.name + ". ";
+  } else{
+    result += "Местоположение: " + this.position[0] + "," + this.position[1] + ". ";
+  };
+  
+  if(this.cargo && this.cargo > 0){
+    result += "Груз: " + this.cargo + "т. ";
+  } else{
+    result += "Товаров нет. ";
+  };
+  
+  return  result;
+}
 
 /**
  * Выводит количество свободного места на корабле.
  * @name Vessel.getFreeSpace
  */
-Vessel.prototype.getFreeSpace = function () {}
+Vessel.prototype.getFreeSpace = function () {
+  return (this.capacity - this.cargo);
+}
 
 /**
  * Выводит количество занятого места на корабле.
  * @name Vessel.getOccupiedSpace
  */
-Vessel.prototype.getOccupiedSpace = function () {}
+Vessel.prototype.getOccupiedSpace = function () {
+  return this.cargo
+}
 
 /**
  * Переносит корабль в указанную точку.
@@ -39,7 +79,13 @@ Vessel.prototype.getOccupiedSpace = function () {}
  * vessel.flyTo(earth);
  * @name Vessel.report
  */
-Vessel.prototype.flyTo = function (newPosition) {}
+Vessel.prototype.flyTo = function (newPosition) {
+  if(newPosition[0] && newPosition[1]){
+    this.position = newPosition;
+  } else if(newPosition.position){
+    this.position = newPosition.position;
+  };
+}
 
 /**
  * Создает экземпляр планеты.
@@ -48,7 +94,11 @@ Vessel.prototype.flyTo = function (newPosition) {}
  * @param {Number}[] position Местоположение планеты.
  * @param {Number} availableAmountOfCargo Доступное количество груза.
  */
-function Planet(name, position, availableAmountOfCargo) {}
+function Planet(name, position, availableAmountOfCargo) {
+  this.name = name;
+  this.position = position;
+  this.availableAmountOfCargo = availableAmountOfCargo;
+}
 
 /**
  * Выводит текущее состояние планеты: имя, местоположение, количество доступного груза.
