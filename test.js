@@ -1,5 +1,5 @@
 // Тест
-function Test() {
+function test() {
   var v1_init = new Vessel("SpaceX", [1,3], 1000);
   var v2_init = new Vessel("Протон", [2,4], 2000);
   var p1_init = new Planet("Земля", [5,7], 10000);
